@@ -9,7 +9,7 @@ public class Skill : MonoBehaviour
     {
         _heath = GetComponent<Health>();
 
-        EventManager.Instance.AddListener(EVENT_TYPE.MANA_EMPTY, OnEvent);
+        EventManager.Instance.AddListener(EVENT_TYPE.MANA_EMPTY, OnManaEmpty);
     }
 
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
@@ -31,7 +31,7 @@ public class Skill : MonoBehaviour
         }
     }
 
-    void OnManaEmpty(Component Health, int newMana)
+    void OnManaEmpty(Component Health, object newMana)
     {
         if (_heath.GetInstanceID() != Health.GetInstanceID())
             return;

@@ -18,7 +18,11 @@ public class Health : MonoBehaviour {
             EventManager.Instance.PostNotification(EVENT_TYPE.HEALTH_CHANGE, this, _hp);
 
             if (_hp <= 0)
+            {
                 EventManager.Instance.PostNotification(EVENT_TYPE.HEALTH_EMPTY, this, _hp);
+                EventManager.Instance.RemoveListener(EVENT_TYPE.HEALTH_CHANGE, OnHeathChange);
+                EventManager.Instance.RemoveListener(EVENT_TYPE.HEALTH_EMPTY, OnHeathChange);
+            }
         }
     }
 
@@ -36,8 +40,8 @@ public class Health : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        EventManager.Instance.AddListener(EVENT_TYPE.HEALTH_CHANGE, OnEvent);
-        EventManager.Instance.AddListener(EVENT_TYPE.MANA_CHANGE, OnEvent);
+        EventManager.Instance.AddListener(EVENT_TYPE.HEALTH_CHANGE, OnHeathChange);
+        EventManager.Instance.AddListener(EVENT_TYPE.MANA_CHANGE, OnManaChange);
 	}
 	
 	// Update is called once per frame
@@ -58,7 +62,7 @@ public class Health : MonoBehaviour {
         }
     }
 
-    void OnHeathChange(Component Health, int newHP)
+    void OnHeathChange(Component Health, object newHP)
     {
         //If health has changed of this object
         if (this.GetInstanceID() != Health.GetInstanceID()) return;
@@ -66,7 +70,7 @@ public class Health : MonoBehaviour {
         Debug.Log("Object: " + gameObject.name + "'s Health is: " + newHP.ToString());
     }
 
-    void OnManaChange(Component Health, int newMana)
+    void OnManaChange(Component Health, object newMana)
     {
         //If health has changed of this object
         if (this.GetInstanceID() != Health.GetInstanceID()) return;

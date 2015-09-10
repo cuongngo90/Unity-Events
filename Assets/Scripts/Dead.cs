@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Dead : MonoBehaviour {
 
@@ -22,7 +23,7 @@ public class Dead : MonoBehaviour {
         _health = GetComponent<Health>();
 
         // Add all events this component listening
-        EventManager.Instance.AddListener(EVENT_TYPE.HEALTH_EMPTY, OnEvent);
+        EventManager.Instance.AddListener(EVENT_TYPE.HEALTH_EMPTY, OnHeathEmpty);
     }
 
     public void OnEvent(EVENT_TYPE Event_Type, Component Sender, object Param = null)
@@ -35,11 +36,11 @@ public class Dead : MonoBehaviour {
         } 
     }
 
-    void OnHeathEmpty(Component Health, int newHP)
+    private void OnHeathEmpty(Component Health, object newHP)
     {
         if (_health.GetInstanceID() != Health.GetInstanceID())
             return;
 
-        Debug.Log("Object: " + gameObject.name + " is empty HP: " + newHP.ToString());
+        Debug.Log("Object: " + gameObject.name + " is Dead: ");
     }
 }
